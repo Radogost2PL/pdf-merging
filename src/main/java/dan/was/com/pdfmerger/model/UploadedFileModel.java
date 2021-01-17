@@ -10,13 +10,15 @@ import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "uploaded_pdf")
+@Table(name = "UPLOADED_PDF")
+
 //lombok annotations
-
-
+@Setter
+@Getter
 public class UploadedFileModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PDF_ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     private String fileName;
@@ -26,6 +28,10 @@ public class UploadedFileModel {
     @Lob
     private byte[] pdfData;
 
+//    @ManyToOne
+//    @JoinColumn(name = "PDF_ID")
+//   private int merged;
+
     public UploadedFileModel() {
     }
 
@@ -33,37 +39,38 @@ public class UploadedFileModel {
         this.fileName = fileName;
         this.fileType = fileType;
         this.pdfData = pdfData;
+
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getFileType() {
-        return fileType;
-    }
-
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
-    }
-
-    public byte[] getPdfData() {
-        return pdfData;
-    }
-
-    public void setPdfData(byte[] pdfData) {
-        this.pdfData = pdfData;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+//
+//    public String getFileName() {
+//        return fileName;
+//    }
+//
+//    public void setFileName(String fileName) {
+//        this.fileName = fileName;
+//    }
+//
+//    public String getFileType() {
+//        return fileType;
+//    }
+//
+//    public void setFileType(String fileType) {
+//        this.fileType = fileType;
+//    }
+//
+//    public byte[] getPdfData() {
+//        return pdfData;
+//    }
+//
+//    public void setPdfData(byte[] pdfData) {
+//        this.pdfData = pdfData;
+//    }
 }
