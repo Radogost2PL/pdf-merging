@@ -22,7 +22,11 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+.mvn/wrapper/maven-wrapper.properties
 .mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/MavenWrapperDownloader.java
+mvnw
+mvnw.cmd
 
 ##############################
 ## Gradle
@@ -82,3 +86,9 @@ nb-configuration.xml
 ## OS X
 ##############################
 .DS_Store
+
+
+##############################
+##Other
+##############################
+HELP.md
