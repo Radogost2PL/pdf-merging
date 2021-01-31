@@ -1,5 +1,6 @@
 package dan.was.com.pdfmerger.model;
 
+import com.sun.xml.bind.v2.TODO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,20 +23,21 @@ public class MergedPdfModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String name;
+    private String pdfName;
 
     @Lob
     private byte[] Data;
 
-    @ManyToOne(targetEntity = UploadedFileModel.class)
-    @JoinColumn(name = "PDF_ID")
-    private int PDF;
+    //TODO later add foreign keys from uploaded pdfs into merged pdf
+//    @ManyToOne(targetEntity = UploadedFileModel.class)
+//    @JoinColumn(name = "PDF_ID")
+//    private int PDFs;
 
     public MergedPdfModel() {
     }
 
     public MergedPdfModel(String name, byte[] data) {
-        this.name = name;
+        this.pdfName = name;
         Data = data;
     }
 }

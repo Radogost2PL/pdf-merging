@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -18,8 +19,10 @@ import java.util.Arrays;
 public class UploadedFileModel {
     @Id
     @Column(name = "PDF_ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+
+    private String id;
 
     private String fileName;
 
@@ -28,9 +31,6 @@ public class UploadedFileModel {
     @Lob
     private byte[] pdfData;
 
-//    @ManyToOne
-//    @JoinColumn(name = "PDF_ID")
-//   private int merged;
 
     public UploadedFileModel() {
     }
@@ -41,36 +41,4 @@ public class UploadedFileModel {
         this.pdfData = pdfData;
 
     }
-
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-//
-//    public String getFileName() {
-//        return fileName;
-//    }
-//
-//    public void setFileName(String fileName) {
-//        this.fileName = fileName;
-//    }
-//
-//    public String getFileType() {
-//        return fileType;
-//    }
-//
-//    public void setFileType(String fileType) {
-//        this.fileType = fileType;
-//    }
-//
-//    public byte[] getPdfData() {
-//        return pdfData;
-//    }
-//
-//    public void setPdfData(byte[] pdfData) {
-//        this.pdfData = pdfData;
-//    }
 }
