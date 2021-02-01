@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,13 +24,21 @@ public class MergePdf {
     private static final File TEMP_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
     Logger logger = LoggerFactory.getLogger(MergePdf.class);
 
-//TODO extract converting methods to separate class amd package
+//TODO extract converting methods to separate class and package
 
     public File convertMultipart(MultipartFile file) throws IOException {
-        File convFile = new File(file.getOriginalFilename());
+
+        File uploadedPdfDirectory = new File(TEMP_DIRECTORY, "uploaded_directory");
+
+        if (!uploadedPdfDirectory.mkdir()) {
+            logger.info("Is " + uploadedPdfDirectory + "a DIRECTORY: " + String.valueOf(uploadedPdfDirectory.isDirectory()));
+        }
+
+        File convFile = new File(uploadedPdfDirectory, file.getOriginalFilename());
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(file.getBytes());
+        logger.info("CONVERT GDZIE JEST PLIK" + convFile.getAbsolutePath());
         fos.close();
         return convFile;
     }
@@ -69,14 +79,17 @@ public class MergePdf {
         PDFMergerUtility pdfmerger = new PDFMergerUtility();
         pdfmerger.setDestinationFileName(absolutePath + "/merged.pdf");
 
+
         try {
             for (File file : files) {
                 PDDocument document = PDDocument.load(file);
+                logger.info("GDZIE JEST PLIK" + file.getAbsolutePath());
                 pdfmerger.addSource(file);
                 document.close();
             }
 
             pdfmerger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
+
 
             logger.info("Os temp directory: " + System.getProperty("java.io.tmpdir"));
 
