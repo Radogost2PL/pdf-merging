@@ -12,8 +12,9 @@ public class PdfFileResponse {
 
     //TODO to implement in the future
     private String pdfName;
+    private String id;
+//    private String fileType;
     private String pdfDownloadUrl;
-
     private long size;
 
     public PdfFileResponse() {
