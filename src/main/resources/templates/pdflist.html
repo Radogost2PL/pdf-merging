@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Merged PDF List</title>
+    <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+
+<body>
+<div class="jumbotron text-center">
+    <h1>Lista połączonych PDFów</h1>
+    <!-- Trigger the modal with a button -->
+</div>
+<div class="container">
+    <div class="row align-items-start">
+    <div class="row" >
+        <th:block th:each="pdf : ${listPdf}">
+            <div class="col">
+                <div>
+                    <img th:src="@{/images/merged_pdf.png}" width="80" class="rounded"/>
+                </div>
+                <div>
+                    <a th:href="@{'/download?id='+${pdf.id}}"> [[${pdf.pdfName}]]</a>
+                </div>
+                <div>
+                    ([[${#numbers.formatInteger(pdf.size, 2, 'COMMA')}]] bytes)
+                </div>
+            </div>
+        </th:block>
+    </div>
+    </div>
+</div>
+
+
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+</html>

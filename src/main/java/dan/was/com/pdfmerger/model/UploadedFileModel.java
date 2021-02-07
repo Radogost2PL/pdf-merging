@@ -1,14 +1,11 @@
 package dan.was.com.pdfmerger.model;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Arrays;
 
 @Entity
 @Table(name = "UPLOADED_PDF")

@@ -1,38 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Połącz PDFy</title>
-    <script src="/jquery/jquery-3.5.1.min.js"></script>
-    <script src="/bootstrap-4.5.3/js/bootstrap.min.js"></script>
-</head>
-Połącz PDFy
-<body>
-<section class="my-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <form method="post" th:action="@{/uploadfiles}" enctype="multipart/form-data" id="uploadForm">
-                    <div class="form-group">
-                        <label for="uploadfile1">File 1:</label>
-                        <input type="file" class="form-control" placeholder="Upload File" id="uploadfile1" name="pdfs">
-                    </div>
-                    <div class="form-group">
-                        <label for="uploadfile2">File 2:</label>
-                        <input type="file" class="form-control" placeholder="Upload File" id="uploadfile2" name="pdfs">
-                    </div>
-                    <div class="form-group">
-                        <label for="uploadfile3">File 3:</label>
-                        <input type="file" class="form-control" placeholder="Upload File" id="uploadfile3" name="pdfs">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Upload File</button>
-                </form>
+    <link href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"
+          rel="stylesheet">
 
+</head>
+<body>
+<div class="jumbotron text-center">
+    <h1>Połącz dokumenty PDF</h1>
+    <h2>wersja testowa demo</h2>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <form method="post" th:action="@{/uploadfiles}" enctype="multipart/form-data" id="uploadForm">
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        <span>
+                            <button type="submit" class="btn btn-primary">Upload File</button>
+                        </span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="pdfs" id="fileInput" accept="application/pdf"
+                               onchange="uploadedPdfInfo();" multiple>
+                        <label class="custom-file-label" for="fileInput">Choose PDF files</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mx-auto">
+                    <div class="alert alert-success" role="alert">
+                        selected files: <span id="fileNum">0</span>;
+                        total size: <span id="fileSize">0</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</section>
+</div>
+</div>
+</div>
+<script>
+            function uploadedPdfInfo() {
+                var bytesCount = 0,
+                        pdfFile = document.getElementById("fileInput").files,
+                        pdfLength = pdfFile.length;
+                for (var fileId = 0; fileId < pdfLength; fileId++) {
+                    bytesCount += pdfFile[fileId].size;
+                }
+
+                var totalBytes = bytesCount + " bytes";
+
+
+                document.getElementById("fileNum").innerHTML = pdfLength;
+                document.getElementById("fileSize").innerHTML = totalBytes;
+            }
+</script>
+
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/4.6.0/js/bootstrap.min.js"></script>
 
 </body>
 </html>

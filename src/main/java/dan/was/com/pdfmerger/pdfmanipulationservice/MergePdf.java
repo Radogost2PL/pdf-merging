@@ -11,8 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +18,6 @@ import java.util.List;
 @Component
 public class MergePdf {
 
-    //    public final static String DIR = "/home/rancor/Pulpit/pdf test/upload/";
     private static final File TEMP_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
     Logger logger = LoggerFactory.getLogger(MergePdf.class);
 
@@ -38,7 +35,7 @@ public class MergePdf {
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(file.getBytes());
-        logger.info("CONVERT GDZIE JEST PLIK" + convFile.getAbsolutePath());
+        logger.info("CONVERT GDZIE JEST PLIK: " + convFile.getAbsolutePath());
         fos.close();
         return convFile;
     }
@@ -73,7 +70,7 @@ public class MergePdf {
 
         }
 
-        logger.info(String.valueOf("Is " + newDirectory + " exists:  " + newDirectory.exists()));
+        logger.info("Is " + newDirectory + " exists:  " + newDirectory.exists());
 
         String absolutePath = newDirectory.getAbsolutePath();
         PDFMergerUtility pdfmerger = new PDFMergerUtility();
@@ -93,12 +90,22 @@ public class MergePdf {
 
             logger.info("Os temp directory: " + System.getProperty("java.io.tmpdir"));
 
-
         } catch (IOException e) {
             logger.error("Error while merging files: " + e.getMessage());
         }
+
+        try {
+            for (File file : files) {
+                DeleteFiles.deleteTemp(file);
+            }
+        } catch (Exception e) {
+            logger.error("Nie udało się skasować uploadowanych pdfów");
+        }
+        files.forEach(file -> logger.info("Czy " + file + "istniejje po kasowaniu " + String.valueOf(file.exists())));
+
         return new File(pdfmerger.getDestinationFileName());
     }
+
 }
 
 

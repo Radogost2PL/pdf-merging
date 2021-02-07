@@ -50,7 +50,8 @@ public class PdfStorageService {
         }
 
         MergedPdfModel mergedPdfModel =
-                new MergedPdfModel(multipartFile.getOriginalFilename(), multipartFile.getBytes());
+                new MergedPdfModel(multipartFile.getOriginalFilename(),
+                        multipartFile.getBytes(), multipartFile.getSize());
 
         logger.info("MergedPdfModel name:" + mergedPdfModel.getPdfName() +
                 " Bytes: " + mergedPdfModel.getData() + "Pdf name: " + mergedPdfModel.getPdfName());
