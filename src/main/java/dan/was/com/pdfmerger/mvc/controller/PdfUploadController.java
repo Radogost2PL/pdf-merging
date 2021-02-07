@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +53,8 @@ public class PdfUploadController {
 
     @PostMapping("/upload")
     public String uploadPdf(@RequestParam("pdf") MultipartFile pdf) {
+
+
         try {
             UploadedFileModel pdfFileModel = pdfStorageService.pdfSave(pdf);
 
@@ -63,7 +66,8 @@ public class PdfUploadController {
     }
 
     @PostMapping("/uploadfiles")
-    public String uploadMultiplePdfs(@RequestParam("pdfs") MultipartFile[] pdfs) throws IOException {
+    public String uploadMultiplePdfs(@RequestParam("pdfs") MultipartFile[] pdfs, Model model
+    ) throws IOException {
 
         Arrays.asList(pdfs)
                 .stream()
@@ -80,6 +84,7 @@ public class PdfUploadController {
         DeleteFiles.deleteTemp(merged);
 
         logger.info("Is  Merged File existing after delete: " + merged.exists() + "Name:: " + merged.getName());
+//        }
         return "redirect:/pdflist";
     }
 

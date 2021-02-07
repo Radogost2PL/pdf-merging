@@ -13,6 +13,9 @@
 <div class="jumbotron text-center">
     <h1>Połącz dokumenty PDF</h1>
     <h2>wersja testowa demo</h2>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="/pdflist" role="button">Zobacz listę połącznych pdfów</a>
+    </p>
 </div>
 <div class="container">
     <div class="row">
@@ -26,9 +29,11 @@
                     </div>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" name="pdfs" id="fileInput" accept="application/pdf"
-                               onchange="uploadedPdfInfo();" multiple>
+                               onchange="uploadedPdfInfo();" multiple required>
                         <label class="custom-file-label" for="fileInput">Choose PDF files</label>
+
                     </div>
+<!--                    <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>-->
                 </div>
             </form>
         </div>
@@ -61,6 +66,7 @@
                 document.getElementById("fileNum").innerHTML = pdfLength;
                 document.getElementById("fileSize").innerHTML = totalBytes;
             }
+
 </script>
 
 <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
