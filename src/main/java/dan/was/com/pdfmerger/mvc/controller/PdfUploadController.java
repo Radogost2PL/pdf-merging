@@ -1,7 +1,8 @@
 package dan.was.com.pdfmerger.mvc.controller;
 
-import dan.was.com.pdfmerger.model.MergedPdfModel;
-import dan.was.com.pdfmerger.model.UploadedFileModel;
+import dan.was.com.pdfmerger.entity.MergedPdfModel;
+import dan.was.com.pdfmerger.entity.UploadedFileModel;
+import dan.was.com.pdfmerger.model.FormModel;
 import dan.was.com.pdfmerger.pdfmanipulationservice.DeleteFiles;
 import dan.was.com.pdfmerger.pdfmanipulationservice.MergePdf;
 import dan.was.com.pdfmerger.pdfrepository.JpaMergedPdfRepository;
@@ -12,14 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,6 +34,8 @@ public class PdfUploadController {
 
     @Autowired
     MergePdf mergePdf;
+    //    @Autowired
+//    FormModel formModel;
     @Autowired
     PdfStorageService pdfStorageService;
     @Autowired
@@ -47,7 +49,8 @@ public class PdfUploadController {
 
 
     @GetMapping("/")
-    public String mainPage() {
+    public String mainPage(Model model) {
+        model.addAttribute("formModel", new FormModel());
         return "main";
     }
 
@@ -66,8 +69,14 @@ public class PdfUploadController {
     }
 
     @PostMapping("/uploadfiles")
-    public String uploadMultiplePdfs(@RequestParam("pdfs") MultipartFile[] pdfs, Model model
-    ) throws IOException {
+    public String uploadMultiplePdfs(@Valid FormModel formModel,
+                                     BindingResult bindingResult, @RequestParam("pdfs") MultipartFile[] pdfs) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            return "main";
+        }
+        System.out.println("@@######$$$$$$$" + formModel.getName());
+
 
         Arrays.asList(pdfs)
                 .stream()
@@ -77,7 +86,7 @@ public class PdfUploadController {
 
         List<File> files = mergePdf.multipartToFileList(pdfs);
 
-        File merged = mergePdf.mergePDFFiles(files, "merged");
+        File merged = mergePdf.mergePDFFiles(files, formModel.getName());
         logger.info("Is File Merged: " + merged.exists() + "Name:: " + merged.getName());
 
         pdfStorageService.mergedPdfsave(merged);

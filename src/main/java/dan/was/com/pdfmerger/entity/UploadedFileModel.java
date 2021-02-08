@@ -1,19 +1,18 @@
-package dan.was.com.pdfmerger.model;
+package dan.was.com.pdfmerger.entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.lang.NonNull;
+
 
 import javax.persistence.*;
 
 @Entity
+
 @Table(name = "UPLOADED_PDF")
 
 //lombok annotations
-@Setter
-@Getter
+@Data
 public class UploadedFileModel {
     @Id
     @Column(name = "PDF_ID")

@@ -74,7 +74,7 @@ public class MergePdf {
 
         String absolutePath = newDirectory.getAbsolutePath();
         PDFMergerUtility pdfmerger = new PDFMergerUtility();
-        pdfmerger.setDestinationFileName(absolutePath + "/merged.pdf");
+        pdfmerger.setDestinationFileName(absolutePath + "/"+mergedFileName+".pdf");
 
 
         try {

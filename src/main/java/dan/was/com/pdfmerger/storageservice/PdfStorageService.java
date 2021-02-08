@@ -1,8 +1,8 @@
 package dan.was.com.pdfmerger.storageservice;
 
 
-import dan.was.com.pdfmerger.model.MergedPdfModel;
-import dan.was.com.pdfmerger.model.UploadedFileModel;
+import dan.was.com.pdfmerger.entity.MergedPdfModel;
+import dan.was.com.pdfmerger.entity.UploadedFileModel;
 import dan.was.com.pdfmerger.pdfrepository.JpaMergedPdfRepository;
 import dan.was.com.pdfmerger.pdfrepository.JpaUploadedPdfRepository;
 import org.apache.commons.io.IOUtils;

@@ -18,31 +18,48 @@
     </p>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-12 mx-auto">
-            <form method="post" th:action="@{/uploadfiles}" enctype="multipart/form-data" id="uploadForm">
-                <div class="input-group mb-4">
-                    <div class="input-group-prepend">
+    <div class="row align-items-start">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <form action="#" method="POST" th:action="@{/uploadfiles}" enctype="multipart/form-data"
+                      id="formModel" th:object="${formModel}">
+
+                    <!--                <form id="employeeForm" th:action="@{/form}" th:object="${employee}" method="POST">-->
+
+                    <div class="input-group mb-4">
+                        <div class="input-group-prepend">
                         <span>
-                            <button type="submit" class="btn btn-primary">Upload File</button>
+                            <button type="submit" class="btn btn-primary">Wyślij PDF</button>
                         </span>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="pdfs" id="fileInput" accept="application/pdf"
-                               onchange="uploadedPdfInfo();" multiple required>
-                        <label class="custom-file-label" for="fileInput">Choose PDF files</label>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="pdfs" id="fileInput"
+                                   accept="application/pdf"
+                                   onchange="uploadedPdfInfo();" multiple required>
+                            <label class="custom-file-label" for="fileInput">Wybierz pliki PDF które chcesz
+                                połączyć </label>
+
+                        </div>
+                        <div>
+                            <label>Nazwa dla połączonego PDFa</label>
+                            <input type="text" th:field="*{name}" id="name" placeholder=" Wpisz nazwę">
+                        </div>
 
                     </div>
-<!--                    <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>-->
-                </div>
-            </form>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 mx-auto">
-                    <div class="alert alert-success" role="alert">
-                        selected files: <span id="fileNum">0</span>;
-                        total size: <span id="fileSize">0</span>
+                    <div class="alert alert-danger" role="alert">
+                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mx-auto">
+
+                        <div class="alert alert-info" role="alert">
+                            selected files: <span id="fileNum">0</span>;
+                            total size: <span id="fileSize">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,6 +83,9 @@
                 document.getElementById("fileNum").innerHTML = pdfLength;
                 document.getElementById("fileSize").innerHTML = totalBytes;
             }
+
+
+
 
 </script>
 

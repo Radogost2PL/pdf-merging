@@ -1,9 +1,7 @@
-package dan.was.com.pdfmerger.model;
+package dan.was.com.pdfmerger.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 
@@ -12,8 +10,7 @@ import javax.persistence.*;
 @Table(name = "MERGED_PDF")
 
 //Lombok annotations
-@Getter
-@Setter
+@Data
 
 public class MergedPdfModel {
 
@@ -24,6 +21,8 @@ public class MergedPdfModel {
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
 
+//    @NotBlank
+//    @Size(min = 5, max = 35)
     private String pdfName;
 
     private String fileType;
