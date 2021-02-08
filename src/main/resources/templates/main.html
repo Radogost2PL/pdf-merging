@@ -18,55 +18,45 @@
     </p>
 </div>
 <div class="container">
-    <div class="row align-items-start">
-        <div class="row">
-            <div class="col-md-12 mx-auto">
-                <form action="#" method="POST" th:action="@{/uploadfiles}" enctype="multipart/form-data"
-                      id="formModel" th:object="${formModel}">
-
-                    <!--                <form id="employeeForm" th:action="@{/form}" th:object="${employee}" method="POST">-->
-
-                    <div class="input-group mb-4">
-                        <div class="input-group-prepend">
+    <!--    <div class="row align-items-start">-->
+    <div class="row">
+        <div class="col-md-16 mx-auto">
+            <form action="#" method="POST" th:action="@{/uploadfiles}" enctype="multipart/form-data"
+                  id="formModel" th:object="${formModel}">
+                <div class="input-group mb-6">
+                    <div class="input-group-prepend">
                         <span>
                             <button type="submit" class="btn btn-primary">Wyślij PDF</button>
                         </span>
-                        </div>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="pdfs" id="fileInput"
-                                   accept="application/pdf"
-                                   onchange="uploadedPdfInfo();" multiple required>
-                            <label class="custom-file-label" for="fileInput">Wybierz pliki PDF które chcesz
-                                połączyć </label>
-
-                        </div>
-                        <div>
-                            <label>Nazwa dla połączonego PDFa</label>
-                            <input type="text" th:field="*{name}" id="name" placeholder=" Wpisz nazwę">
-                        </div>
 
                     </div>
-                    <div class="alert alert-danger" role="alert">
-                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="pdfs" id="fileInput"
+                               accept="application/pdf"
+                               onchange="uploadedPdfInfo();" multiple required>
+                        <label class="custom-file-label" for="fileInput">Wybierz pliki PDF które chcesz
+                            połączyć </label>
                     </div>
-
-                </form>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 mx-auto">
-
-                        <div class="alert alert-info" role="alert">
-                            selected files: <span id="fileNum">0</span>;
-                            total size: <span id="fileSize">0</span>
-                        </div>
+                    <div>
+                        <label>Nazwa dla połączonego PDFa</label>
+                        <input type="text" th:field="*{name}" id="name" placeholder=" Wpisz nazwę">
                     </div>
                 </div>
-            </div>
+                <!--                    <div class="row">-->
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('name')}"
+                     th:errors="*{name}">
+                </div>
+                <!--                    </div>-->
+                <!--                    <div class="row">-->
+                <div class="alert alert-info" role="alert">
+                    selected files: <span id="fileNum">0</span>;
+                    total size: <span id="fileSize">0</span>
+                    <!--                        </div>-->
+                </div>
+            </form>
+            <!--            </div>-->
         </div>
     </div>
-</div>
-</div>
 </div>
 <script>
             function uploadedPdfInfo() {
@@ -86,11 +76,9 @@
 
 
 
-
 </script>
 
 <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="webjars/bootstrap/4.6.0/js/bootstrap.min.js"></script>
-
 </body>
 </html>
