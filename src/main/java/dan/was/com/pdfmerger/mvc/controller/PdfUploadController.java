@@ -6,7 +6,7 @@ import dan.was.com.pdfmerger.model.FormModel;
 import dan.was.com.pdfmerger.pdfmanipulationservice.DeleteFiles;
 import dan.was.com.pdfmerger.pdfmanipulationservice.MergePdf;
 import dan.was.com.pdfmerger.pdfrepository.JpaMergedPdfRepository;
-import dan.was.com.pdfmerger.storageservice.PdfDownloadService;
+import dan.was.com.pdfmerger.storageservice.MergedPdfDownloadService;
 import dan.was.com.pdfmerger.storageservice.PdfStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ public class PdfUploadController {
     @Autowired
     PdfStorageService pdfStorageService;
     @Autowired
-    PdfDownloadService pdfDownloadService;
+    MergedPdfDownloadService mergedPdfDownloadService;
     @Autowired
     JpaMergedPdfRepository jpaMergedPdfRepository;
 

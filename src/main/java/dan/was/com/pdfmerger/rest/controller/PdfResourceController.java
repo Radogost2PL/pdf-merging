@@ -1,7 +1,7 @@
 package dan.was.com.pdfmerger.rest.controller;
 
 import dan.was.com.pdfmerger.entity.MergedPdfModel;
-import dan.was.com.pdfmerger.storageservice.PdfDownloadService;
+import dan.was.com.pdfmerger.storageservice.MergedPdfDownloadService;
 import dan.was.com.pdfmerger.uploadresponse.PdfFileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,11 +37,11 @@ public class PdfResourceController {
             };
 
     @Autowired
-    PdfDownloadService pdfDownloadService;
+    MergedPdfDownloadService mergedPdfDownloadService;
 
     @GetMapping("/mergedpdf")
     public ResponseEntity<List<PdfFileResponse>> getAllMergedPdfs() {
-        List<PdfFileResponse> files = pdfDownloadService.getAllMergedPdfs().
+        List<PdfFileResponse> files = mergedPdfDownloadService.getAllMergedPdfs().
                 map(MERGED_PDF_MODEL_PDF_FILE_RESPONSE_FUNCTION).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(files);
@@ -49,7 +49,7 @@ public class PdfResourceController {
 
     @GetMapping("/mergedpdf/{id}")
     public ResponseEntity<byte[]> getPdf(@PathVariable String id) {
-        MergedPdfModel mergedPdfModel = pdfDownloadService.getPdf(id);
+        MergedPdfModel mergedPdfModel = mergedPdfDownloadService.getPdf(id);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,

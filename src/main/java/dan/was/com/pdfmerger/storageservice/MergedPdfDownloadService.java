@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 
 @Service
-public class PdfDownloadService {
+public class MergedPdfDownloadService {
 
     @Autowired
     private JpaMergedPdfRepository jpaMergedPdfRepository;
