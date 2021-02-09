@@ -4,6 +4,9 @@ import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -20,6 +23,11 @@ import java.util.List;
 public class MergePdf {
 
     private static final File TEMP_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
+    public static final String PDF_PROGRAM_INFO_FIRST_LINE =
+            "Ten PDF zostal wygenerowany przez program napisany przez DW github: ";
+    public static final String PDF_PROGRAM_INFO_SECOND_LINE = "https://github.com//Radogost2PL przy uzyciu https://pdfbox.apache.org//";
+
+
     Logger logger = LoggerFactory.getLogger(MergePdf.class);
 
 //TODO extract converting methods to separate class and package
@@ -75,7 +83,7 @@ public class MergePdf {
 
         String absolutePath = newDirectory.getAbsolutePath();
         PDFMergerUtility pdfmerger = new PDFMergerUtility();
-        pdfmerger.setDestinationFileName(absolutePath + "/"+mergedFileName+".pdf");
+        pdfmerger.setDestinationFileName(absolutePath + "/" + mergedFileName + ".pdf");
 
 
         try {
@@ -95,12 +103,33 @@ public class MergePdf {
             logger.error("Error while merging files: " + e.getMessage());
         }
 
-//        String destinationFileName = pdfmerger.getDestinationFileName();
-//
-//        PDDocument mergedPdf = PDDocument.load(new File(destinationFileName));
-//        PDPage blankPage = new PDPage();
-//        mergedPdf.addPage(blankPage);
-//        mergedPdf.save(destinationFileName);
+        String destinationFileName = pdfmerger.getDestinationFileName();
+
+
+        //TODO move to another class code for adding info page.
+        PDPage blankPage = new PDPage();
+
+        PDDocument mergedPdf = PDDocument.load(new File(destinationFileName));
+        PDPageContentStream contentStream = new PDPageContentStream(mergedPdf, blankPage);
+
+        contentStream.beginText();
+        contentStream.newLineAtOffset(50, 700);
+
+
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 13);
+
+
+        contentStream.showText(PDF_PROGRAM_INFO_FIRST_LINE);
+        contentStream.endText();
+        contentStream.beginText();
+        contentStream.newLine();
+        contentStream.newLineAtOffset(50, 670);
+        contentStream.showText(PDF_PROGRAM_INFO_SECOND_LINE);
+        contentStream.endText();
+        contentStream.close();
+        mergedPdf.addPage(blankPage);
+
+        mergedPdf.save(destinationFileName);
 
 
         try {
