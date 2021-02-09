@@ -3,6 +3,7 @@ package dan.was.com.pdfmerger.pdfmanipulationservice;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -46,7 +47,7 @@ public class MergePdf {
         List<MultipartFile> multipartFilesList = Arrays.asList(multipartFiles);
         List<File> files = new ArrayList<>();
 
-        logger.info(String.valueOf("Is multipartFilesList empty:: " + multipartFilesList.isEmpty()));
+        logger.info(String.valueOf("Is multipartFilesList empty: " + multipartFilesList.isEmpty()));
 
         for (MultipartFile file : multipartFilesList) {
             files.add(convertMultipart(file));
@@ -57,7 +58,7 @@ public class MergePdf {
     }
 
     public File mergePDFFiles(List<File> files,
-                              String mergedFileName) {
+                              String mergedFileName) throws IOException {
 
 //TODO check later if it is possible to merge without using temp directory in pdfbox
 
@@ -80,7 +81,7 @@ public class MergePdf {
         try {
             for (File file : files) {
                 PDDocument document = PDDocument.load(file);
-                logger.info("GDZIE JEST PLIK" + file.getAbsolutePath());
+                logger.info("Where is file: " + file.getAbsolutePath());
                 pdfmerger.addSource(file);
                 document.close();
             }
@@ -94,6 +95,14 @@ public class MergePdf {
             logger.error("Error while merging files: " + e.getMessage());
         }
 
+//        String destinationFileName = pdfmerger.getDestinationFileName();
+//
+//        PDDocument mergedPdf = PDDocument.load(new File(destinationFileName));
+//        PDPage blankPage = new PDPage();
+//        mergedPdf.addPage(blankPage);
+//        mergedPdf.save(destinationFileName);
+
+
         try {
             for (File file : files) {
                 DeleteFiles.deleteTemp(file);
@@ -101,7 +110,7 @@ public class MergePdf {
         } catch (Exception e) {
             logger.error("Nie udało się skasować uploadowanych pdfów");
         }
-        files.forEach(file -> logger.info("Czy " + file + "istniejje po kasowaniu " + String.valueOf(file.exists())));
+        files.forEach(file -> logger.info("Czy " + file + "istnieje po kasowaniu " + String.valueOf(file.exists())));
 
         return new File(pdfmerger.getDestinationFileName());
     }

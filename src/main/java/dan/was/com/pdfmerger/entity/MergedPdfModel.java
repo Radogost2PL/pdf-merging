@@ -21,8 +21,6 @@ public class MergedPdfModel {
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
 
-//    @NotBlank
-//    @Size(min = 5, max = 35)
     private String pdfName;
 
     private String fileType;

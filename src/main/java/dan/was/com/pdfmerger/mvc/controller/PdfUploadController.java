@@ -34,8 +34,6 @@ public class PdfUploadController {
 
     @Autowired
     MergePdf mergePdf;
-    //    @Autowired
-//    FormModel formModel;
     @Autowired
     PdfStorageService pdfStorageService;
     @Autowired
@@ -93,7 +91,7 @@ public class PdfUploadController {
         DeleteFiles.deleteTemp(merged);
 
         logger.info("Is  Merged File existing after delete: " + merged.exists() + "Name:: " + merged.getName());
-//        }
+
         return "redirect:/pdflist";
     }
 
