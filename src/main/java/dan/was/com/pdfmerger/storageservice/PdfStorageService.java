@@ -1,8 +1,8 @@
 package dan.was.com.pdfmerger.storageservice;
 
 
-import dan.was.com.pdfmerger.model.MergedPdfModel;
-import dan.was.com.pdfmerger.model.UploadedFileModel;
+import dan.was.com.pdfmerger.entity.MergedPdfModel;
+import dan.was.com.pdfmerger.entity.UploadedFileModel;
 import dan.was.com.pdfmerger.pdfrepository.JpaMergedPdfRepository;
 import dan.was.com.pdfmerger.pdfrepository.JpaUploadedPdfRepository;
 import org.apache.commons.io.IOUtils;
@@ -50,7 +50,8 @@ public class PdfStorageService {
         }
 
         MergedPdfModel mergedPdfModel =
-                new MergedPdfModel(multipartFile.getOriginalFilename(), multipartFile.getBytes());
+                new MergedPdfModel(multipartFile.getOriginalFilename(),
+                        multipartFile.getBytes(), multipartFile.getSize());
 
         logger.info("MergedPdfModel name:" + mergedPdfModel.getPdfName() +
                 " Bytes: " + mergedPdfModel.getData() + "Pdf name: " + mergedPdfModel.getPdfName());

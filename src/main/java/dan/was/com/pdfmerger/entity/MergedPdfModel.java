@@ -1,29 +1,30 @@
-package dan.was.com.pdfmerger.model;
+package dan.was.com.pdfmerger.entity;
 
-import com.sun.xml.bind.v2.TODO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 //persistence annotations
 @Entity
 @Table(name = "MERGED_PDF")
 
 //Lombok annotations
-@Getter
-@Setter
+@Data
 
 public class MergedPdfModel {
 
 
     @Id
-    @Column(name = "MERGED_PDF_ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @Column(name = "PDF_ID")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    private String id;
 
     private String pdfName;
+
+    private String fileType;
+    private long size;
 
     @Lob
     private byte[] Data;
@@ -36,8 +37,9 @@ public class MergedPdfModel {
     public MergedPdfModel() {
     }
 
-    public MergedPdfModel(String name, byte[] data) {
+    public MergedPdfModel(String name, byte[] data, Long size) {
         this.pdfName = name;
+        this.size = size;
         Data = data;
     }
 }

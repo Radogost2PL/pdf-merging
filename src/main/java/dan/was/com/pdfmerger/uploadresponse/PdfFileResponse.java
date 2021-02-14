@@ -8,14 +8,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UploadResponse {
+public class PdfFileResponse {
 
     //TODO to implement in the future
     private String pdfName;
-    private String pdfDownloadUrl;
     private String id;
+//    private String fileType;
+    private String pdfDownloadUrl;
     private long size;
 
-
-
+    public PdfFileResponse() {
+    }
 }
+
