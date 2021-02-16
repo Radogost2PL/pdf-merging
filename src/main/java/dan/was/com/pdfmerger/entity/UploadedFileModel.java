@@ -19,9 +19,11 @@ public class UploadedFileModel {
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
     @Column(name = "PDF_NAME")
-    private String fileName;
+    private String pdfName;
     @Column(name = "FILE_TYPE")
     private String fileType;
+    @Column(name = "PDF_SIZE")
+    private long size;
     @Lob
     @Column(name = "PDF_DATA")
     private byte[] pdfData;
@@ -30,10 +32,11 @@ public class UploadedFileModel {
     public UploadedFileModel() {
     }
 
-    public UploadedFileModel(String fileName, String fileType, byte[] pdfData) {
-        this.fileName = fileName;
+    public UploadedFileModel(String pdfName, String fileType, Long size, byte[] pdfData) {
+        this.pdfName = pdfName;
         this.fileType = fileType;
         this.pdfData = pdfData;
+        this.size = size;
 
     }
 }

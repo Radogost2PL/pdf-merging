@@ -4,6 +4,7 @@ import dan.was.com.pdfmerger.entity.MergedPdfModel;
 import dan.was.com.pdfmerger.entity.UploadedFileModel;
 import dan.was.com.pdfmerger.model.FormModel;
 import dan.was.com.pdfmerger.pdf.manipulation.DeleteFiles;
+import dan.was.com.pdfmerger.pdf.repository.JpaUploadedPdfRepository;
 import dan.was.com.pdfmerger.pdf.service.MergePdf;
 import dan.was.com.pdfmerger.pdf.repository.JpaMergedPdfRepository;
 import dan.was.com.pdfmerger.storage.service.MergedPdfDownloadService;
@@ -41,6 +42,8 @@ public class PdfUploadController {
     MergedPdfDownloadService mergedPdfDownloadService;
     @Autowired
     JpaMergedPdfRepository jpaMergedPdfRepository;
+    @Autowired
+    JpaUploadedPdfRepository jpaUploadedPdfRepository;
     @Autowired
     DeleteFiles deleteFiles;
 
@@ -111,6 +114,29 @@ public class PdfUploadController {
         ServletOutputStream outputStream = response.getOutputStream();
         response.setHeader(HEADER_KEY, headerValue);
         outputStream.write(mergedPdf.getData());
+        outputStream.close();
+    }
+
+    @GetMapping("/uploadedlist")
+    public String uploadedList(Model model) {
+        List<UploadedFileModel> listPdf = jpaUploadedPdfRepository.findAll();
+//        LOGGER.info("Is object in model? :" + listPdf.size() + "empty: " + listPdf.isEmpty());
+        model.addAttribute("listPdf", listPdf);
+        return "/uploadedpdflist";
+    }
+
+    @GetMapping("/downloadpdf")
+    public void downloadUploadedPdf(@RequestParam("id") String id, HttpServletResponse response) throws Exception {
+        Optional<UploadedFileModel> uploadedPdfModel = jpaUploadedPdfRepository.findById(id);
+        if (!uploadedPdfModel.isPresent()) {
+            throw new Exception("Can't find pdf with id: " + id);
+        }
+        UploadedFileModel uploadedFileModel = uploadedPdfModel.get();
+        response.setContentType("application/pdf");
+        String headerValue = (ATTACHMENT_FILENAME + uploadedFileModel.getId());
+        ServletOutputStream outputStream = response.getOutputStream();
+        response.setHeader(HEADER_KEY, headerValue);
+        outputStream.write(uploadedFileModel.getPdfData());
         outputStream.close();
     }
 }
