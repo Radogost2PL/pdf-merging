@@ -8,7 +8,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-
 @Table(name = "UPLOADED_PDF")
 
 //lombok annotations
@@ -18,14 +17,13 @@ public class UploadedFileModel {
     @Column(name = "PDF_ID")
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-
     private String id;
-
+    @Column(name = "PDF_NAME")
     private String fileName;
-
+    @Column(name = "FILE_TYPE")
     private String fileType;
-
     @Lob
+    @Column(name = "PDF_DATA")
     private byte[] pdfData;
 
 

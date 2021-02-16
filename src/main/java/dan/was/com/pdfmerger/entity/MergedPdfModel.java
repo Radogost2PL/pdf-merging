@@ -20,13 +20,14 @@ public class MergedPdfModel {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
-
+    @Column(name = "PDF_NAME")
     private String pdfName;
-
-    private String fileType;
+    //    private String fileType;
+    @Column(name = "PDF_SIZE")
     private long size;
 
     @Lob
+    @Column(name = "PDF_DATA")
     private byte[] Data;
 
     //TODO later add foreign keys from uploaded pdfs into merged pdf
