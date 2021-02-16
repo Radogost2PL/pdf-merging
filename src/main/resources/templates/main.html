@@ -11,11 +11,11 @@
 </head>
 <body>
 <div class="jumbotron text-center">
-    <h1>Połącz dokumenty PDF</h1>
-    <h2>wersja testowa demo</h2>
-    <h3>Autor DW</h3>
+    <h1 th:text="#{title.main.h1}"></h1>
+    <h2 th:text="#{title.main.h2}"></h2>
+    <h3 th:text="#{title.main.h3}"></h3>
     <p class="lead">
-        <a class="btn btn-primary btn-lg" href="/pdflist" role="button">Zobacz listę połącznych pdfów</a>
+        <a class="btn btn-primary btn-lg" href="/pdflist" role="button" th:text="#{button.merged.pdf.list}"></a>
     </p>
 </div>
 <div class="container">
@@ -27,7 +27,7 @@
                 <div class="input-group mb-6">
                     <div class="input-group-prepend">
                         <span>
-                            <button type="submit" class="btn btn-primary">Wyślij PDF</button>
+                            <button type="submit" class="btn btn-primary" th:text="#{button.send}"></button>
                         </span>
 
                     </div>
@@ -35,23 +35,22 @@
                         <input type="file" class="custom-file-input" name="pdfs" id="fileInput"
                                accept="application/pdf"
                                onchange="uploadedPdfInfo();" multiple required>
-                        <label class="custom-file-label" for="fileInput">Wybierz pliki PDF</label>
+                        <label class="custom-file-label" for="fileInput"  th:text="#{input.choose.pdf}"></label>
                     </div>
                     <div>
-                        <label>Nazwa dla połączonego PDFa</label>
-                        <input type="text" th:field="*{name}" id="name" placeholder=" Wpisz nazwę">
+                        <label th:text="#{pdf.name.label}"></label>
+                        <input type="text" th:field="*{name}" id="name"   th:placeholder="#{input.placeholder.pdf.name}">
                     </div>
                 </div>
-                <!--                    <div class="row">-->
                 <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('name')}"
                      th:errors="*{name}">
                 </div>
-                <!--                    </div>-->
-                <!--                    <div class="row">-->
-                <div class="alert alert-info" role="alert">
-                    liczba wybranych plików: <span id="fileNum">0</span>;
-                    maks wielkość plików: <span id="fileSize">0</span>
-                    <!--                        </div>-->
+                <div class="alert alert-info" role="alert" th:inline="text">
+                    [[#{files.number}]]
+<!--                    liczba plików:-->
+                    <span id="fileNum">0</span>;
+                    [[#{total.size}]]
+                    <span id="fileSize">0</span>
                 </div>
             </form>
             <!--            </div>-->

@@ -1,8 +1,8 @@
 package dan.was.com.pdfmerger.rest.controller;
 
 import dan.was.com.pdfmerger.entity.MergedPdfModel;
-import dan.was.com.pdfmerger.storageservice.MergedPdfDownloadService;
-import dan.was.com.pdfmerger.uploadresponse.PdfFileResponse;
+import dan.was.com.pdfmerger.storage.service.MergedPdfDownloadService;
+import dan.was.com.pdfmerger.upload.response.PdfFileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
