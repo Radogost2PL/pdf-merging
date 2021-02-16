@@ -1,4 +1,4 @@
-package dan.was.com.pdfmerger.pdfrepository;
+package dan.was.com.pdfmerger.pdf.repository;
 
 import dan.was.com.pdfmerger.entity.UploadedFileModel;
 import org.springframework.data.jpa.repository.JpaRepository;

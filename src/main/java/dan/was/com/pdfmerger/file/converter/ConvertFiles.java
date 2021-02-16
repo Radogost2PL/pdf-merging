@@ -1,4 +1,4 @@
-package dan.was.com.pdfmerger.fileconverter;
+package dan.was.com.pdfmerger.file.converter;
 
 
 import org.slf4j.Logger;
@@ -14,21 +14,21 @@ import java.io.IOException;
 public class ConvertFiles {
     private static final File TEMP_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
 
-    Logger logger = LoggerFactory.getLogger(ConvertFiles.class);
+   private static final Logger LOGGER = LoggerFactory.getLogger(ConvertFiles.class);
 
     public File convertMultipartToFile(MultipartFile file) throws IOException {
 
         File uploadedPdfDirectory = new File(TEMP_DIRECTORY, "uploaded_directory");
 
         if (!uploadedPdfDirectory.mkdir()) {
-            logger.info("Is " + uploadedPdfDirectory + "a DIRECTORY: " + uploadedPdfDirectory.isDirectory());
+            LOGGER.info("Is " + uploadedPdfDirectory + "a DIRECTORY: " + uploadedPdfDirectory.isDirectory());
         }
 
         File convertedFile = new File(uploadedPdfDirectory, file.getOriginalFilename());
         convertedFile.createNewFile();
         FileOutputStream fileOutputStream = new FileOutputStream(convertedFile);
         fileOutputStream.write(file.getBytes());
-        logger.info("Where is converted file: " + convertedFile.getAbsolutePath());
+        LOGGER.info("Where is converted file: " + convertedFile.getAbsolutePath());
         fileOutputStream.close();
         return convertedFile;
     }

@@ -3,11 +3,11 @@ package dan.was.com.pdfmerger.mvc.controller;
 import dan.was.com.pdfmerger.entity.MergedPdfModel;
 import dan.was.com.pdfmerger.entity.UploadedFileModel;
 import dan.was.com.pdfmerger.model.FormModel;
-import dan.was.com.pdfmerger.pdfmanipulation.DeleteFiles;
-import dan.was.com.pdfmerger.pdfservice.MergePdf;
-import dan.was.com.pdfmerger.pdfrepository.JpaMergedPdfRepository;
-import dan.was.com.pdfmerger.storageservice.MergedPdfDownloadService;
-import dan.was.com.pdfmerger.storageservice.PdfStorageService;
+import dan.was.com.pdfmerger.pdf.manipulation.DeleteFiles;
+import dan.was.com.pdfmerger.pdf.service.MergePdf;
+import dan.was.com.pdfmerger.pdf.repository.JpaMergedPdfRepository;
+import dan.was.com.pdfmerger.storage.service.MergedPdfDownloadService;
+import dan.was.com.pdfmerger.storage.service.PdfStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class PdfUploadController {
     DeleteFiles deleteFiles;
 
 
-    private static final Logger logger = LoggerFactory.getLogger(PdfUploadController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PdfUploadController.class);
     public static final String HEADER_KEY = ("ContentDisposition");
 
 
@@ -83,10 +83,10 @@ public class PdfUploadController {
 
         List<File> files = mergePdf.multipartArrayToFileList(pdfs);
         File merged = mergePdf.mergePDFFiles(files, formModel.getName());
-        logger.info("Is File Merged: " + merged.exists() + "Name:: " + merged.getName());
+        LOGGER.info("Is File Merged: " + merged.exists() + "Name:: " + merged.getName());
         pdfStorageService.mergedPdfsave(merged);
         deleteFiles.deleteTemp(merged);
-        logger.info("Is  Merged File existing after delete: " + merged.exists() + "Name:: " + merged.getName());
+        LOGGER.info("Is  Merged File existing after delete: " + merged.exists() + "Name:: " + merged.getName());
 
         return "redirect:/pdflist";
     }
@@ -94,7 +94,7 @@ public class PdfUploadController {
     @GetMapping("/pdflist")
     public String mergedList(Model model) {
         List<MergedPdfModel> listPdf = jpaMergedPdfRepository.findAll();
-        logger.info("Is object in model? :" + listPdf.size() + "empty: " + listPdf.isEmpty());
+        LOGGER.info("Is object in model? :" + listPdf.size() + "empty: " + listPdf.isEmpty());
         model.addAttribute("listPdf", listPdf);
         return "/pdflist";
     }

@@ -1,4 +1,4 @@
-package dan.was.com.pdfmerger.pdfmanipulation;
+package dan.was.com.pdfmerger.pdf.manipulation;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -29,6 +29,7 @@ public class GenerateCreditsPage {
             contentStream.beginText();
             contentStream.newLineAtOffset(50, 700);
             contentStream.setFont(PDType1Font.HELVETICA_BOLD, 13);
+//            contentStream.setFont(PDType1Font.encode(), 13);
             contentStream.showText(PDF_PROGRAM_INFO_FIRST_LINE);
             contentStream.endText();
             contentStream.beginText();

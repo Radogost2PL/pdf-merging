@@ -1,7 +1,7 @@
-package dan.was.com.pdfmerger.storageservice;
+package dan.was.com.pdfmerger.storage.service;
 
 import dan.was.com.pdfmerger.entity.MergedPdfModel;
-import dan.was.com.pdfmerger.pdfrepository.JpaMergedPdfRepository;
+import dan.was.com.pdfmerger.pdf.repository.JpaMergedPdfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

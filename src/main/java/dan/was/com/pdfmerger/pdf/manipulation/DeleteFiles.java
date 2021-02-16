@@ -1,4 +1,4 @@
-package dan.was.com.pdfmerger.pdfmanipulation;
+package dan.was.com.pdfmerger.pdf.manipulation;
 
 import org.springframework.stereotype.Component;
 

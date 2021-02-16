@@ -1,7 +1,8 @@
-package dan.was.com.pdfmerger.uploadresponse;
+package dan.was.com.pdfmerger.upload.response;
 
-import dan.was.com.pdfmerger.storageservice.PdfStorageService;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,11 +12,9 @@ public class PdfFileResponse {
     //TODO to implement in the future
     private String pdfName;
     private String id;
-//    private String fileType;
+    //    private String fileType;
     private String pdfDownloadUrl;
     private long size;
 
-//    public PdfFileResponse() {
-//    }
 }
 

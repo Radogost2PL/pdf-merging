@@ -1,8 +1,8 @@
-package dan.was.com.pdfmerger.pdfservice;
+package dan.was.com.pdfmerger.pdf.service;
 
-import dan.was.com.pdfmerger.fileconverter.ConvertFiles;
-import dan.was.com.pdfmerger.pdfmanipulation.DeleteFiles;
-import dan.was.com.pdfmerger.pdfmanipulation.GenerateCreditsPage;
+import dan.was.com.pdfmerger.file.converter.ConvertFiles;
+import dan.was.com.pdfmerger.pdf.manipulation.DeleteFiles;
+import dan.was.com.pdfmerger.pdf.manipulation.GenerateCreditsPage;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -31,7 +31,7 @@ public class MergePdf {
 
     private static final File TEMP_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
 
-    Logger logger = LoggerFactory.getLogger(MergePdf.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MergePdf.class);
 
 
     public List<File> multipartArrayToFileList(MultipartFile[] multipartFiles) throws IOException {
@@ -39,14 +39,14 @@ public class MergePdf {
         List<MultipartFile> multipartFilesList = Arrays.asList(multipartFiles);
         List<File> files = new ArrayList<>();
 
-        logger.info("Is multipartFilesList empty: " + multipartFilesList.isEmpty());
+        LOGGER.info("Is multipartFilesList empty: " + multipartFilesList.isEmpty());
 
         for (MultipartFile file : multipartFilesList) {
 //            files.add(convertMultipartToFile(file));
             files.add(convertFiles.convertMultipartToFile(file));
         }
 
-        logger.info(String.valueOf("MultipartFilesList size: " + multipartFilesList.size()));
+        LOGGER.info(String.valueOf("MultipartFilesList size: " + multipartFilesList.size()));
         return files;
     }
 
@@ -56,15 +56,15 @@ public class MergePdf {
 //TODO check later if it is possible to merge without using temp directory in pdfbox?
 
         File newDirectory = new File(TEMP_DIRECTORY, "new_directory");
-        logger.info("Is " + newDirectory + " exists before mkdir method: " + newDirectory.exists());
+        LOGGER.info("Is " + newDirectory + " exists before mkdir method: " + newDirectory.exists());
 
         //creates directory for merged pdf
         if (!newDirectory.mkdir()) {
-            logger.info("Is " + newDirectory + "a DIRECTORY: " + newDirectory.isDirectory());
+            LOGGER.info("Is " + newDirectory + "a DIRECTORY: " + newDirectory.isDirectory());
 
         }
 
-        logger.info("Is " + newDirectory + " exists:  " + newDirectory.exists());
+        LOGGER.info("Is " + newDirectory + " exists:  " + newDirectory.exists());
 
         String absolutePath = newDirectory.getAbsolutePath();
         PDFMergerUtility pdfmerger = new PDFMergerUtility();
@@ -73,14 +73,14 @@ public class MergePdf {
         try {
             for (File file : files) {
                 PDDocument document = PDDocument.load(file);
-                logger.info("Where is file: " + file.getAbsolutePath());
+                LOGGER.info("Where is file: " + file.getAbsolutePath());
                 pdfmerger.addSource(file);
                 document.close();
             }
             pdfmerger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
-            logger.info("Os temp directory: " + System.getProperty("java.io.tmpdir"));
+            LOGGER.info("Os temp directory: " + System.getProperty("java.io.tmpdir"));
         } catch (IOException e) {
-            logger.error("Error while merging files: " + e.getMessage());
+            LOGGER.error("Error while merging files: " + e.getMessage());
         }
         String destinationFileName = pdfmerger.getDestinationFileName();
 
@@ -91,9 +91,9 @@ public class MergePdf {
                 deleteFiles.deleteTemp(file);
             }
         } catch (Exception e) {
-            logger.error("Can't delete files: " + e);
+            LOGGER.error("Can't delete files: " + e);
         }
-        files.forEach(file -> logger.info("Does " + file + "exist after deleting " + file.exists()));
+        files.forEach(file -> LOGGER.info("Does " + file + "exist after deleting " + file.exists()));
 
         return new File(pdfmerger.getDestinationFileName());
     }

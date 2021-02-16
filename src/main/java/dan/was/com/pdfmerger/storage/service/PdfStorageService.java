@@ -1,10 +1,10 @@
-package dan.was.com.pdfmerger.storageservice;
+package dan.was.com.pdfmerger.storage.service;
 
 
 import dan.was.com.pdfmerger.entity.MergedPdfModel;
 import dan.was.com.pdfmerger.entity.UploadedFileModel;
-import dan.was.com.pdfmerger.pdfrepository.JpaMergedPdfRepository;
-import dan.was.com.pdfmerger.pdfrepository.JpaUploadedPdfRepository;
+import dan.was.com.pdfmerger.pdf.repository.JpaMergedPdfRepository;
+import dan.was.com.pdfmerger.pdf.repository.JpaUploadedPdfRepository;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class PdfStorageService {
 
-    private static final Logger logger = LoggerFactory.getLogger(PdfStorageService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PdfStorageService.class);
 
     @Autowired
     private JpaUploadedPdfRepository jpaUploadedPdfRepository;
@@ -36,24 +36,24 @@ public class PdfStorageService {
         MockMultipartFile multipartFile = null;
         try {
             if (file.exists()) {
-                logger.info("File Exists : " + file.getName() + " |path: " + file.getAbsolutePath());
+                LOGGER.info("File Exists : " + file.getName() + " |path: " + file.getAbsolutePath());
             }
             FileInputStream input = new FileInputStream(file);
             multipartFile = new MockMultipartFile("file", file.getName(),
                     "application/pdf", IOUtils.toByteArray(input));
 
-            logger.info("Is multipartFileEmpty? : " + multipartFile.isEmpty() + " |name " +
+            LOGGER.info("Is multipartFileEmpty? : " + multipartFile.isEmpty() + " |name " +
                     multipartFile.getOriginalFilename() + " |bytes " + multipartFile.getBytes() + "|size" + multipartFile.getSize());
 
         } catch (IOException e) {
-            logger.error(e.getLocalizedMessage());
+            LOGGER.error(e.getLocalizedMessage());
         }
 
         MergedPdfModel mergedPdfModel =
                 new MergedPdfModel(multipartFile.getOriginalFilename(),
                         multipartFile.getBytes(), multipartFile.getSize());
 
-        logger.info("MergedPdfModel name:" + mergedPdfModel.getPdfName() +
+        LOGGER.info("MergedPdfModel name:" + mergedPdfModel.getPdfName() +
                 " Bytes: " + mergedPdfModel.getData() + "Pdf name: " + mergedPdfModel.getPdfName());
 
         mergedPdfRepository.save(mergedPdfModel);
@@ -80,7 +80,7 @@ public class PdfStorageService {
         ids.add(pdfFileModel.getId());
 
 
-        ids.forEach(i -> logger.info("IDs of saved pdfs: " + i));
+        ids.forEach(i -> LOGGER.info("IDs of saved pdfs: " + i));
         return null;
     }
 }
