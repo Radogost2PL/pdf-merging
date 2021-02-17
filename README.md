@@ -1,5 +1,5 @@
 # pdf-merging
-This program was written solely for demostrating my programing skills to recruiters.
+This program was written for demostrating my programing skills to recruiters.
 
 My skills:
 1. Java 8+
