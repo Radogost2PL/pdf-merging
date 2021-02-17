@@ -66,19 +66,16 @@ public class PdfStorageService {
 
         String pdfName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
-
         UploadedFileModel pdfFileModel = new UploadedFileModel
                 (multipartFile.getOriginalFilename(),
                         multipartFile.getContentType(),
+                        multipartFile.getSize(),
                         multipartFile.getBytes());
-        System.out.println(multipartFile.getOriginalFilename());
-        System.out.println(multipartFile.getContentType());
-        System.out.println(multipartFile.getBytes());
+
         jpaUploadedPdfRepository.save(pdfFileModel);
 
         List<String> ids = new ArrayList<>();
         ids.add(pdfFileModel.getId());
-
 
         ids.forEach(i -> LOGGER.info("IDs of saved pdfs: " + i));
         return null;

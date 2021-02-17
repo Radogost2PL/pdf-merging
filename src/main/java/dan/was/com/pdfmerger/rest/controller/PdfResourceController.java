@@ -40,15 +40,18 @@ public class PdfResourceController {
     MergedPdfDownloadService mergedPdfDownloadService;
 
     @GetMapping("/mergedpdf")
-    public ResponseEntity<List<PdfFileResponse>> getAllMergedPdfs() {
+    public ResponseEntity<List<PdfFileResponse>> getAllMergedPdfs() throws Exception {
+//        List<PdfFileResponse> files = mergedPdfDownloadService.getAllMergedPdfs().map(MERGED_PDF_MODEL_PDF_FILE_RESPONSE_FUNCTION).collect(Collectors.toList());
         List<PdfFileResponse> files = mergedPdfDownloadService.getAllMergedPdfs().
-                map(MERGED_PDF_MODEL_PDF_FILE_RESPONSE_FUNCTION).collect(Collectors.toList());
+                stream().map(MERGED_PDF_MODEL_PDF_FILE_RESPONSE_FUNCTION).collect(Collectors.toList());
+
+//                map(MERGED_PDF_MODEL_PDF_FILE_RESPONSE_FUNCTION).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
     @GetMapping("/mergedpdf/{id}")
-    public ResponseEntity<byte[]> getPdf(@PathVariable String id) {
+    public ResponseEntity<byte[]> getPdf(@PathVariable String id) throws Exception {
         MergedPdfModel mergedPdfModel = mergedPdfDownloadService.getPdf(id);
 
         return ResponseEntity.ok()
