@@ -25,6 +25,7 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.properties
 .mvn/wrapper/maven-wrapper.jar
 .mvn/wrapper/MavenWrapperDownloader.java
+/.mvn/
 mvnw
 mvnw.cmd
 
@@ -99,3 +100,5 @@ HELP.md
 /.attach_pid20180
 /.attach_pid65296
 /.attach_pid65642
+
+
