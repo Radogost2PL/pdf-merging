@@ -4,18 +4,21 @@ import dan.was.com.pdfmerger.entity.MergedPdfModel;
 import dan.was.com.pdfmerger.entity.UploadedFileModel;
 import dan.was.com.pdfmerger.model.FormModel;
 import dan.was.com.pdfmerger.pdf.manipulation.DeleteFiles;
+import dan.was.com.pdfmerger.pdf.repository.JpaMergedPdfRepository;
 import dan.was.com.pdfmerger.pdf.repository.JpaUploadedPdfRepository;
 import dan.was.com.pdfmerger.pdf.service.MergePdf;
-import dan.was.com.pdfmerger.pdf.repository.JpaMergedPdfRepository;
 import dan.was.com.pdfmerger.storage.service.MergedPdfDownloadService;
 import dan.was.com.pdfmerger.storage.service.PdfStorageService;
+import dan.was.com.pdfmerger.storage.service.UploadedPdfDownloadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -25,7 +28,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -40,6 +42,8 @@ public class PdfUploadController {
     PdfStorageService pdfStorageService;
     @Autowired
     MergedPdfDownloadService mergedPdfDownloadService;
+    @Autowired
+    UploadedPdfDownloadService uploadedPdfDownloadService;
     @Autowired
     JpaMergedPdfRepository jpaMergedPdfRepository;
     @Autowired
@@ -95,8 +99,9 @@ public class PdfUploadController {
     }
 
     @GetMapping("/pdflist")
-    public String mergedList(Model model) {
-        List<MergedPdfModel> listPdf = jpaMergedPdfRepository.findAll();
+    public String mergedList(Model model) throws Exception {
+//        List<MergedPdfModel> listPdf = jpaMergedPdfRepository.findAll();
+        List<MergedPdfModel> listPdf = mergedPdfDownloadService.getAllMergedPdfs();
         LOGGER.info("Is object in model? :" + listPdf.size() + "empty: " + listPdf.isEmpty());
         model.addAttribute("listPdf", listPdf);
         return "/pdflist";
@@ -104,11 +109,7 @@ public class PdfUploadController {
 
     @GetMapping("/download")
     public void downloadPdf(@RequestParam("id") String id, HttpServletResponse response) throws Exception {
-        Optional<MergedPdfModel> mergedPdfModel = jpaMergedPdfRepository.findById(id);
-        if (!mergedPdfModel.isPresent()) {
-            throw new Exception("Can't find pdf with id: " + id);
-        }
-        MergedPdfModel mergedPdf = mergedPdfModel.get();
+        MergedPdfModel mergedPdf = mergedPdfDownloadService.getPdf(id);
         response.setContentType("application/pdf");
         String headerValue = (ATTACHMENT_FILENAME + mergedPdf.getId());
         ServletOutputStream outputStream = response.getOutputStream();
@@ -118,20 +119,15 @@ public class PdfUploadController {
     }
 
     @GetMapping("/uploadedlist")
-    public String uploadedList(Model model) {
-        List<UploadedFileModel> listPdf = jpaUploadedPdfRepository.findAll();
-//        LOGGER.info("Is object in model? :" + listPdf.size() + "empty: " + listPdf.isEmpty());
+    public String uploadedList(Model model) throws Exception {
+        List<UploadedFileModel> listPdf = uploadedPdfDownloadService.getAllUploadedPdfs();
         model.addAttribute("listPdf", listPdf);
         return "/uploadedpdflist";
     }
 
     @GetMapping("/downloadpdf")
     public void downloadUploadedPdf(@RequestParam("id") String id, HttpServletResponse response) throws Exception {
-        Optional<UploadedFileModel> uploadedPdfModel = jpaUploadedPdfRepository.findById(id);
-        if (!uploadedPdfModel.isPresent()) {
-            throw new Exception("Can't find pdf with id: " + id);
-        }
-        UploadedFileModel uploadedFileModel = uploadedPdfModel.get();
+        UploadedFileModel uploadedFileModel = uploadedPdfDownloadService.getPdf(id);
         response.setContentType("application/pdf");
         String headerValue = (ATTACHMENT_FILENAME + uploadedFileModel.getId());
         ServletOutputStream outputStream = response.getOutputStream();
