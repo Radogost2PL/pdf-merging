@@ -11,7 +11,7 @@ My skills:
 7. Gradle
 8. Loombok
 
-For job offers, please contact me at
+For job offers, please contact me at d.wasil@protonmail.com
 
 
 
