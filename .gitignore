@@ -7,6 +7,7 @@
 *.war
 *.ear
 *.nar
+*.jpb
 hs_err_pid*
 
 ##############################
@@ -102,3 +103,4 @@ HELP.md
 /.attach_pid65642
 
 
+/.jpb/persistence-units.xml
