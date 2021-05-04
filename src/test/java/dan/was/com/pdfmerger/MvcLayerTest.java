@@ -44,8 +44,4 @@ public class MvcLayerTest {
     public void defaultResponse() throws Exception {
         this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk());
     }
-    @Test
-    public void uploadResponse() throws Exception {
-        this.mockMvc.perform(post("/upload")).andDo(print()).andExpect(status().is3xxRedirection());
-    }
 }
