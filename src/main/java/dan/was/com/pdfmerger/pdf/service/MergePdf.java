@@ -83,7 +83,7 @@ public class MergePdf {
             LOGGER.error("Error while merging files: " + e.getMessage());
         }
         String destinationFileName = pdfmerger.getDestinationFileName();
-        generateCreditsPage.printPage(destinationFileName);
+        generateCreditsPage.printPage(files, destinationFileName);
         try {
             for (File file : files) {
                 deleteFiles.deleteTemp(file);
