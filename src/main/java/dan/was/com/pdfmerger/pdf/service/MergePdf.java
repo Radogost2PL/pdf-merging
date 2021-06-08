@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MergePdf {
@@ -69,21 +70,26 @@ public class MergePdf {
         String absolutePath = newDirectory.getAbsolutePath();
         PDFMergerUtility pdfmerger = new PDFMergerUtility();
         pdfmerger.setDestinationFileName(absolutePath + "/" + mergedFileName + ".pdf");
+/*
+Tgis code is not used in portfolio app version
+ */
+//        try {
+//            for (File file : files) {
+//                PDDocument document = PDDocument.load(file);
+//                LOGGER.info("Where is file: " + file.getAbsolutePath());
+//                pdfmerger.addSource(file);
+//                document.close();
+//            }
+//            pdfmerger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
+//            LOGGER.info("Os temp directory: " + System.getProperty("java.io.tmpdir"));
+//        } catch (IOException e) {
+//            LOGGER.error("Error while merging files: " + e.getMessage());
+//        }
 
-        try {
-            for (File file : files) {
-                PDDocument document = PDDocument.load(file);
-                LOGGER.info("Where is file: " + file.getAbsolutePath());
-                pdfmerger.addSource(file);
-                document.close();
-            }
-            pdfmerger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
-            LOGGER.info("Os temp directory: " + System.getProperty("java.io.tmpdir"));
-        } catch (IOException e) {
-            LOGGER.error("Error while merging files: " + e.getMessage());
-        }
+        List<File> sortedList = files.stream().sorted().collect(Collectors.toList());
+
         String destinationFileName = pdfmerger.getDestinationFileName();
-        generateCreditsPage.printPage(files, destinationFileName);
+        generateCreditsPage.printPage(sortedList, destinationFileName);
         try {
             for (File file : files) {
                 deleteFiles.deleteTemp(file);

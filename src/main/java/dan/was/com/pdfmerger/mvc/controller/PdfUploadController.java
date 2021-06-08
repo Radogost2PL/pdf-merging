@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,6 +88,7 @@ public class PdfUploadController {
                 .stream()
                 .map(file -> uploadPdf(file))
                 .collect(Collectors.toList());
+
 
         List<File> files = mergePdf.multipartArrayToFileList(pdfs);
         File merged = mergePdf.mergePDFFiles(files, formModel.getName());
